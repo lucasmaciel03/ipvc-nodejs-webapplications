@@ -53,7 +53,7 @@ router.get("/2", (req, res) => {
 // GET one todo by id
 router.get("/3/:id", (req, res) => {
   // get todo by id
-  const todo = data.to_do.find((todo) => todo.id === (req.params.id));
+  const todo = data.to_do.find((todo) => todo.id == (req.params.id));
   res.send(todo);
 });
 // POST Create to do
@@ -61,7 +61,7 @@ router.get("/3/:id", (req, res) => {
 router.post("/4", (req, res) => {
   const newTodo = {
     id: getRandomInt(100),
-    title: req.body.title,
+    desc: req.body.desc,
     done: false,
   };
   data.to_do.push(newTodo);
@@ -81,30 +81,44 @@ function getRandomInt(max) {
 // PUT Update desc ou done
 // update desc or done
 router.put("/5/:id", (req, res) => {
-  const todo = data.to_do.find((todo) => todo.id === (req.params.id));
+  const todo = data.to_do.find((todo) => todo.id == (req.params.id));
   if (req.body.desc) {
     todo.desc = req.body.desc;
   }
-  if (req.body.done) {
-    todo.done = req.body.done;
-  }
-  res.send(todo);
+    todo.done = req.body.done ?? todo.done;
+  
+  const fileData = JSON.stringify(data);
+  fs.writeFileSync("savedData.json", fileData, "utf-8");
+  res
+    .status(201)
+    .send({ message: "To do updated", desc: todo});
 });
 // PUT toggle done
 // toggle done false to true and true to false
 router.put("/6/:id", (req, res) => {
-  const todo = data.to_do.find((todo) => todo.id === (req.params.id));
+  const todo = data.to_do.find((todo) => todo.id == (req.params.id));
   todo.done = !todo.done;
-  res.send(todo);
+
+  const fileData = JSON.stringify(data);
+  fs.writeFileSync("savedData.json", fileData, "utf-8");
+  res
+    .status(201)
+    .send({ message: "To do updated", desc: todo});
 });
 
 // DELETE delete to do
 // delete to do by id
 router.delete("/7/:id", (req, res) => {
-  const todo = data.to_do.find((todo) => todo.id === (req.params.id));
+  const todo = data.to_do.find((todo) => todo.id == (req.params.id));
   const index = data.to_do.indexOf(todo);
   data.to_do.splice(index, 1);
-  res.send({ message: "To do deleted", data: todo });
+
+  const fileData = JSON.stringify(data);
+  fs.writeFileSync("savedData.json", fileData, "utf-8");
+  res
+    .status(201)
+    .send({ message: "To do deleted", desc: todo});
+
 });
 
 app.use(router);
