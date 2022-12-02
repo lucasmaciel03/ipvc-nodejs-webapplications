@@ -1,0 +1,17 @@
+{
+  "nome": "Lucas Maciel",
+  "data_nascimento": "17/05/2003",
+  "localidade": "Póvoa de Varzim",
+  "hab_academicas": [
+    {
+      "grau": "Ensino Superior",
+      "instituicao": "IPVC",
+      "tipo_curso": "CTESP",
+      "nome_curso": "DWM",
+      "data_inicio": "20/11/2022",
+      "data_fim": null
+    }
+  ],
+  "hab_profissionais": [],
+  "projetos": []
+}
