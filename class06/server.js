@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //--ROUTES--// 												.
-app.use("/api/todos", routes);
+app.use("/api/", routes);
 // o caminho para as routes vai começar com:
 // {host}/api
 // o host no nosso contexto, é http://localhost:4242
