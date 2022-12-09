@@ -1,33 +1,32 @@
 import Router from "express";
-import { TodoModel } from "../models/todos.js";
-
+import {
+    getAllTodos,
+    getTodoByID,
+    createNewTodo,
+    updateToDo,
+    updateToDoStatus,
+    deleteToDo,
+} from "../controllers/todos.js";
 const routes = Router();
 
 // {host}/api/todos
 
-routes.get("/", async(req, res) => {
-    const todos = await TodoModel.findAll();
-    res.send(todos);
-});
+routes.get("/", getAllTodos);
 
+//CRUD
 // create new todo
-routes.post("/newtodo", async(req, res) => {
-    const { content } = req.body;
-    const newTodo = await TodoModel.create({ content });
-    res.send(newTodo);
-});
+routes.post("/newtodo", createNewTodo);
+
+// find todo by id
+routes.get("/findtodo/:id", getTodoByID);
 
 // update todo 
-routes.put("/updatetodo/:id", async(req, res) => {
-    const { id } = req.params;
-    const { content } = req.body;
-    const todo = await TodoModel.findByPk(id);
-    if (todo) {
-        todo.content = content;
-        await todo.save();
-        res.send(todo);
-    } else {
-        res.status(404).send("Todo not found");
-    }
-});
+routes.put("/updatetodo/:id", updateToDo);
+
+// update todo done automatically
+routes.put("/updatetododone/:id", updateToDoStatus);
+
+// delete todo
+routes.delete("/deletetodo/:id", deleteToDo);
+
 export { routes };
